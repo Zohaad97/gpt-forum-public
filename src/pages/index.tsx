@@ -1,32 +1,22 @@
 import React from 'react';
+import { Cascader, Input, Space } from 'antd';
 
 export default function Home() {
+
   return (
     <>
       <div>GPT Forum</div>
-      <div className="d-flex ps-relative">
-        <input
-          className="s-input"
-          id="example-item1"
-          type="text"
-          placeholder="Enter your input here"
+      <Input placeholder="Basic usage" />
+      <Space direction="vertical">
+        <Input addonBefore="http://" addonAfter=".com" defaultValue="mysite" />
+        <Input defaultValue="mysite" />
+        <Input defaultValue="mysite" />
+        <Input addonBefore="http://" suffix=".com" defaultValue="mysite" />
+        <Input
+          addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
+          defaultValue="mysite"
         />
-      </div>
-      <button className="s-btn" type="button">
-        Hello
-      </button>
-      <button className="s-btn s-btn__outlined" type="button">
-        Hello
-      </button>
-      <button className="s-btn s-btn__primary" type="button">
-        Hello
-      </button>
-      <button className="s-btn s-btn__filled s-btn__danger" type="button">
-        Danger Button
-      </button>
-      <button className="s-btn s-btn__filled s-btn__muted is-loading" type="button">
-        Ask Question
-      </button>
+      </Space>
     </>
   );
 }
