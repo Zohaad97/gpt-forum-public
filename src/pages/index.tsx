@@ -1,11 +1,15 @@
 import React from 'react';
 import { UserView } from '@/layouts/user_view';
+import Head from 'next/head';
 
 export default function Home() {
 
   return (
     <>
-    <UserView />
+      <Head>
+        <title>Ultimate GPT Forum</title>
+      </Head>
+      <UserView />
     </>
   );
 }
