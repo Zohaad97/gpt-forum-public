@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {get} from '@/services/http';
-import styles from '@/styles/utils.module.less';
+import styles from '@/styles/utils.module.scss';
 
 type Item = {
   from: string;
@@ -18,7 +18,7 @@ export const ChatUI = () => {
   useEffect(() => {
     (async () => {
       const chat: any = await get(
-        'https://rf2ratky0f.execute-api.us-east-1.amazonaws.com/Stage/conversation/1'
+        'http://chat-gpt-extension-backend-env.eba-8hgfdwyp.us-east-1.elasticbeanstalk.com/api/conversation/1'
       );
       setChat(chat.data);
     })();
@@ -34,7 +34,7 @@ export const ChatUI = () => {
             <div
               id={idx.toString()}
               key={item.value}
-              className={`relative  dark:bg-[#343541] text-gray-700 w-full border-b dark:border-gray-700 border-gray-200 ${
+              className={`relative dark:bg-[#343541] text-gray-700 w-full border-b dark:border-gray-700 border-gray-200 ${
                 item.from === 'gpt' ? 'bg-gray-100 dark:bg-[#434654]' : ''
               }`}
             >
