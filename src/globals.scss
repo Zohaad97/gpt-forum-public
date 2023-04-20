@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg {
+    background: rgb(240, 242, 245);
+}
+
+.space-align-container {
+    display: flex;
+    height: calc(100vh - 150px);
+    justify-content: center;
+    align-items: center;
+}
+
+.space-align-block {
+    flex: none;
+    margin: 8px 4px;
+    padding: 4px;
+    align-self: center;
+}
+
+.space-align-block .mock-block {
+    display: inline-block;
+    padding: 32px 8px 16px;
+    background: rgba(150, 150, 150, 0.2);
+}
