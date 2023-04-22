@@ -75,9 +75,7 @@ export const TreeMenu: React.FC = observer(() => {
         const response = await put(updateChatFolder(chatId, folderId),{})        
     };
 
-    function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
-        console.log(Number(e.node.key));
-        
+    function onSelectItem(selectedKeys: Key[], e: SelectEvent) {      
         if (!e.node.children) {
             ChatStore.updateActiveChatId(Number(e.node.key));
         }
