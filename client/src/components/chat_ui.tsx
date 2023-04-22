@@ -21,7 +21,7 @@ export const ChatUI = () => {
   useEffect(() => {
     (async () => {
       const chat: AxiosResponse<ChatResponse> = await get(
-        geChat(2)
+        geChat(3)
       );
       setChat(chat.data);
     })();

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {MenuProps} from 'antd';
 import {Layout, Menu} from 'antd';
 import {
@@ -8,6 +8,8 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { get } from '@/services/http';
+import { getAllFolders } from '@/services/endpoints';
 const {Sider} = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -38,7 +40,13 @@ const items: MenuItem[] = [
 
 export const SideBar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-
+  useEffect(()=>{
+    (async ()=>{
+      const response = await  get(getAllFolders);
+      console.log(response.data);
+      
+    })()
+  },[])
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div style={{height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)'}} />
