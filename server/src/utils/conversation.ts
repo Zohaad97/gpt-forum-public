@@ -1,6 +1,9 @@
 import sanitizeHtml from 'sanitize-html';
 import {Message} from 'src/types/conversation.type';
 export const parseConversationMessages = (messages: Message[]): Message[] => {
+  if (!messages || messages.length === 0) {
+    return [];
+  }
   const options = {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(['svg']),
     allowedClasses: {

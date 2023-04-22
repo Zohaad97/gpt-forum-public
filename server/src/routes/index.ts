@@ -1,5 +1,5 @@
-import { loginByGoogleToken } from "../modules/auth";
-import express, { Router } from "express";
+import {loginByGoogleToken} from '../modules/auth';
+import express, {Router} from 'express';
 import {
   changeConversationFolderPath,
   createConversation,
@@ -8,27 +8,22 @@ import {
   fetchAllConverationFolder,
   fetchConveration,
   updateConversationFolder,
-} from "../modules/conversation";
-import { verifyToken } from "../middleware/auth";
+} from '../modules/conversation';
+import {verifyToken} from '../middleware/auth';
+import {createChatMessage} from '../modules/chat';
 
 const router: Router = express.Router();
 
-router.post("/conversation", verifyToken, createConversation);
-router.get("/conversation/:id", verifyToken, fetchConveration);
-router.put(
-  "/conversation/:id/folder/:folderId",
-  verifyToken,
-  changeConversationFolderPath
-);
+router.post('/conversation', verifyToken, createConversation);
+router.get('/conversation/:id', verifyToken, fetchConveration);
+router.put('/conversation/:id/folder/:folderId', verifyToken, changeConversationFolderPath);
 
-router.get("/conversation-folder/all", verifyToken, fetchAllConverationFolder);
-router.post("/conversation-folder", verifyToken, createConversationFolder);
-router.patch("/conversation-folder/:id", verifyToken, updateConversationFolder);
-router.delete(
-  "/conversation-folder/:id",
-  verifyToken,
-  deleteConversationFolder
-);
+router.post('/conversation/:id/chat', verifyToken, createChatMessage);
 
-router.post("/auth/session", loginByGoogleToken);
+router.get('/conversation-folder/all', verifyToken, fetchAllConverationFolder);
+router.post('/conversation-folder', verifyToken, createConversationFolder);
+router.patch('/conversation-folder/:id', verifyToken, updateConversationFolder);
+router.delete('/conversation-folder/:id', verifyToken, deleteConversationFolder);
+
+router.post('/auth/session', loginByGoogleToken);
 export default router;
