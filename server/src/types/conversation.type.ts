@@ -11,7 +11,7 @@ export type ConversationFolder = {
   id: number;
 };
 
-type Message = {
-  from: "human" | "gpt";
+export type Message = {
+  from: 'human' | 'gpt';
   value: string;
 };
