@@ -2,6 +2,7 @@ import axios from 'axios';
 
 function defaultHeaders() {
   return {
+    withCredentials:true,
     headers: {
       'Content-Type': 'application/json'
     }
