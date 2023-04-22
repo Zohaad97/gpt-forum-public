@@ -3,3 +3,4 @@ const BASEURL = "http://localhost:8080/api/"
 export const geChat = (id: number) => `${BASEURL}conversation/${id}`;
 export const googleLogin = `${BASEURL}auth/session`;
 export const getAllFolders = `${BASEURL}conversation-folder/all`
+export const updateChatFolder = (chatId: number, folderId: number): string => `${BASEURL}conversation/${chatId}/folder/${folderId}`

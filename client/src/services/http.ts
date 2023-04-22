@@ -18,3 +18,7 @@ export const post = async (url: string, body: any) => {
   const response = await axios.post(url, body, { ...defaultHeaders() });
   return response
 }
+export const put = async (url: string, body: any) => {
+  const response = await axios.put(url, body, { ...defaultHeaders() });
+  return response
+}

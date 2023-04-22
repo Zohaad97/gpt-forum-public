@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { DataNode, EventDataNode, TreeProps } from 'antd/es/tree';
-import { get } from '@/services/http';
-import { getAllFolders } from '@/services/endpoints';
+import { get, put } from '@/services/http';
+import { getAllFolders, updateChatFolder } from '@/services/endpoints';
 import styles from "./tree_menu.module.scss"
 import { Key } from 'antd/es/table/interface';
 import { observer } from 'mobx-react';
@@ -51,12 +51,13 @@ function modifyResponseAccordingToTree(data: Folders[]) {
 export const TreeMenu: React.FC = observer(() => {
     const [gData, setGData] = useState<Tree[]>([]);
 
+    function convertFolderNameToKey (name: number | string) {
+        return Number(name.toString().split("-")[1])
+    }
     useEffect(() => {
         (async () => {
             const response = await get(getAllFolders);
             const data = modifyResponseAccordingToTree(response.data)
-            console.log(data);
-
             setGData(data)
 
         })()
@@ -67,8 +68,11 @@ export const TreeMenu: React.FC = observer(() => {
 
     };
 
-    const onDrop: TreeProps['onDrop'] = (info) => {
-
+    const onDrop: TreeProps['onDrop'] = async (info) => {
+        console.log(info);
+        const chatId = Number(info.dragNode.key);
+        const folderId = convertFolderNameToKey(info.node.key)
+        const response = await put(updateChatFolder(chatId, folderId),{})        
     };
 
     function onSelectItem(selectedKeys: Key[], e: SelectEvent) {

@@ -21,12 +21,14 @@ export const ChatUI = observer(() => {
   const [chat, setChat] = useState<ChatResponse>({ items: [], title: '', avatarUrl: '' });
   
   useEffect(() => {
-    (async () => {
-      const chat: AxiosResponse<ChatResponse> = await get(
-        geChat(ChatStore.activeChatId)
-      );
-      setChat(chat.data);
-    })();
+    if(ChatStore.activeChatId !== 0) {
+      (async () => {
+        const chat: AxiosResponse<ChatResponse> = await get(
+          geChat(ChatStore.activeChatId)
+        );
+        setChat(chat.data);
+      })();
+    }
   }, [ChatStore.activeChatId]);
 
   useEffect(() => {
