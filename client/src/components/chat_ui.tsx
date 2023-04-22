@@ -3,6 +3,8 @@ import { get } from '@/services/http';
 import styles from '@/styles/utils.module.scss';
 import { geChat } from '@/services/endpoints';
 import { type AxiosResponse } from 'axios';
+import { ChatStore } from '@/stores/chat_store';
+import { observer } from 'mobx-react';
 
 type Item = {
   from: string;
@@ -15,17 +17,17 @@ type ChatResponse = {
   avatarUrl: '';
 };
 
-export const ChatUI = () => {
+export const ChatUI = observer(() => {
   const [chat, setChat] = useState<ChatResponse>({ items: [], title: '', avatarUrl: '' });
   
   useEffect(() => {
     (async () => {
       const chat: AxiosResponse<ChatResponse> = await get(
-        geChat(3)
+        geChat(ChatStore.activeChatId)
       );
       setChat(chat.data);
     })();
-  }, []);
+  }, [ChatStore.activeChatId]);
 
   useEffect(() => {
     console.log(chat);
@@ -60,4 +62,4 @@ export const ChatUI = () => {
         })}
     </div>
   );
-};
+});

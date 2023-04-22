@@ -5,6 +5,8 @@ import { get } from '@/services/http';
 import { getAllFolders } from '@/services/endpoints';
 import styles from "./tree_menu.module.scss"
 import { Key } from 'antd/es/table/interface';
+import { observer } from 'mobx-react';
+import { ChatStore } from '@/stores/chat_store';
 
 const { DirectoryTree } = Tree;
 
@@ -46,7 +48,7 @@ function modifyResponseAccordingToTree(data: Folders[]) {
     return tree
 }
 
-export const TreeMenu: React.FC = () => {
+export const TreeMenu: React.FC = observer(() => {
     const [gData, setGData] = useState<Tree[]>([]);
 
     useEffect(() => {
@@ -70,8 +72,11 @@ export const TreeMenu: React.FC = () => {
     };
 
     function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
-
-
+        console.log(Number(e.node.key));
+        
+        if (!e.node.children) {
+            ChatStore.updateActiveChatId(Number(e.node.key));
+        }
     }
     return (
         <DirectoryTree
@@ -83,4 +88,4 @@ export const TreeMenu: React.FC = () => {
             onSelect={onSelectItem}
         />
     );
-};
+});
