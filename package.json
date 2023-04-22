@@ -1,0 +1,12 @@
+{
+  "name": "gpt-forum",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:server": "cd server && npm run dev && cd ..",
+    "build:server": "cd server && npm run build && cd ..",
+    "deploy:server": "cd server && eb deploy && cd ..",
+    "dev:client": "cd client && npm run dev && cd ..",
+    "build:client": "cd client && npm run build && cd ..",
+    "start:client": "cd client && npm run start && cd .."
+  }
+}
