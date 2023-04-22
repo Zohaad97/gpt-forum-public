@@ -1,23 +1,25 @@
-import express, { Express } from "express";
+import express, {Express} from 'express';
 //import helmet from "helmet";
 //import cookieParser from "cookie-parser";
-import cors from "cors";
-import router from "./routes";
-import cookieParser from "cookie-parser";
-import helmet from "helmet";
+import cors from 'cors';
+import router from './routes';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 const app: Express = express();
 
 // set security HTTP headers
 app.use(helmet());
 
+// Enable this on production
 // enable cors
 // app.use(cors());
-// app.options("*", cors());
+// app.options('*', cors());
 
+// Disable this on production
 app.use(
   cors({
-    origin: "http://127.0.0.1:3000",
+    origin: 'http://localhost:3000',
     credentials: true,
   })
 );
@@ -37,6 +39,6 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/api", router);
+app.use('/api', router);
 
 export default app;
