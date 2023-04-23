@@ -5,6 +5,8 @@ import { geChat } from '@/services/endpoints';
 import { type AxiosResponse } from 'axios';
 import { ChatStore } from '@/stores/chat_store';
 import { observer } from 'mobx-react';
+import Image from 'next/image';
+import GPTAvatar from './gpt_avatar';
 
 type Item = {
   from: string;
@@ -47,6 +49,17 @@ export const ChatUI = observer(() => {
             >
               <div className="relative mx-auto max-w-screen-xl dark:text-gray-100 text-gray-700 w-full px-4 py-10">
                 <div className="w-full max-w-screen-md flex flex-1 mx-auto gap-[1.5rem] leading-[1.75] whitespace-pre-wrap">
+                {item.from === "human" ? (
+                  <Image
+                    className="mr-2 rounded-sm h-[28px]"
+                    alt="Avatar of the person chatting"
+                    width="28"
+                    height="28"
+                    src='https://abc.xyz/favicon-194x194.png'
+                  />
+                ) : (
+                  <GPTAvatar model={'GPT-3'} />
+                )}
                   <div className="flex flex-col">
                     {item.from === 'human' ? (
                       <p className="pb-2 whitespace-prewrap">{item.value}</p>
