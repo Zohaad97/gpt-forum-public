@@ -10,13 +10,13 @@ import { ChatStore } from '@/stores/chat_store';
 
 const { DirectoryTree } = Tree;
 
-type Folders = {
+export type Folders = {
     id: number,
     name: string,
     conversations: Conversations[]
 }
 
-type Conversations = {
+export type Conversations = {
     id: number,
     title: string,
 }
@@ -57,12 +57,16 @@ export const TreeMenu: React.FC = observer(() => {
     useEffect(() => {
         (async () => {
             const response = await get(getAllFolders);
-            const data = modifyResponseAccordingToTree(response.data)
-            setGData(data)
-
+            ChatStore.setChatFolders(response.data);
         })()
     }, [])
 
+    useEffect(() => {
+        if(ChatStore.chatFolders){
+            const data = modifyResponseAccordingToTree(ChatStore.chatFolders)
+            setGData(data)
+        }
+    },[ChatStore.chatFolders])
 
     const onDragEnter: TreeProps['onDragEnter'] = (info) => {
 
@@ -72,7 +76,9 @@ export const TreeMenu: React.FC = observer(() => {
         console.log(info);
         const chatId = Number(info.dragNode.key);
         const folderId = convertFolderNameToKey(info.node.key)
-        const response = await put(updateChatFolder(chatId, folderId),{})        
+        await put(updateChatFolder(chatId, folderId),{})
+        const response = await get(getAllFolders);
+        ChatStore.setChatFolders(response.data);     
     };
 
     function onSelectItem(selectedKeys: Key[], e: SelectEvent) {      
