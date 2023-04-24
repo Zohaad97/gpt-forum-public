@@ -2,7 +2,7 @@ let isRequesting = false;
 
 const API_URL = "https://sharegpt.com/api/conversations";
 const PAGE_URL = "https://sharegpt.com/c/";
-
+const FOLDERS = "http://chat-gpt-extension-backend-env.eba-8hgfdwyp.us-east-1.elasticbeanstalk.com/api/conversation-folder/all"
 // const API_URL = "http://localhost:3000/api/conversations";
 // const PAGE_URL = "http://localhost:3000/c/";
 
@@ -13,6 +13,15 @@ function init() {
     function (request, sender, sendResponse) {
       if (request.msg == 'renderHTML') {
         document.querySelectorAll('main')[0].appendChild(document.createElement('div')).innerHTML = request.data;
+        document.getElementById('cancel-btn').addEventListener('click', function () {
+          fetch(FOLDERS, {
+            headers: {
+              access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsZ3FweTM0cjAwMDBuMTV1eWc3YXlkZ2wiLCJlbWFpbCI6ImFsaW1lbW9uc2RAZ21haWwuY29tIiwiaWF0IjoxNjgyMzM4MDIyLCJleHAiOjI0NTk5MzgwMjJ9.uZiTDwtkNttOUwgVTKgsHxCSIzmoEcx2lk-W0C2X02A"
+            }
+          }).then((e) => {
+            console.log(e);
+          })
+        })
       }
     })
 
@@ -183,3 +192,4 @@ function createBtn() {
 }
 
 init();
+

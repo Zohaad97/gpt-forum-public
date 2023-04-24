@@ -38,7 +38,8 @@
         "https://chat.openai.com/*"
       ],
       "js": [
-        "index.js"
+        "index.js",
+        "forum.js"
       ],
       "run_at": "document_end"
     }
