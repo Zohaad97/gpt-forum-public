@@ -1,13 +1,23 @@
 let isRequesting = false;
 
-const API_URL = "https://sharegpt.com/api/conversations";
+// const API_URL = "https://sharegpt.com/api/conversations";
+const API_URL = "https://api.howilearnt.com/api/conversation";
 const PAGE_URL = "https://sharegpt.com/c/";
-const FOLDERS = "http://chat-gpt-extension-backend-env.eba-8hgfdwyp.us-east-1.elasticbeanstalk.com/api/conversation-folder/all"
-// const API_URL = "http://localhost:3000/api/conversations";
+const FOLDERS = "https://api.howilearnt.com/api/conversation-folder/all"
+const SESSION = "https://api.howilearnt.com/api/auth/session"
 // const PAGE_URL = "http://localhost:3000/c/";
 
 
 function init() {
+
+
+  fetch(SESSION, {
+    method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({
+      token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImM5YWZkYTM2ODJlYmYwOWViMzA1NWMxYzRiZDM5Yjc1MWZiZjgxOTUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2ODI0MjYxOTAsImF1ZCI6Ijg2NzcxMDcxMzMwNy05MjYycXA5YzMycmlyazZzdDVhYWQwOHNwYzAwa2Vtdi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwNjEwNjU3MTM0NDUzMjU4Mjc1MCIsImVtYWlsIjoiYWxpbWVtb25zZEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXpwIjoiODY3NzEwNzEzMzA3LTkyNjJxcDljMzJyaXJrNnN0NWFhZDA4c3BjMDBrZW12LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwibmFtZSI6IkFsaSBNZW1vbiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BR05teXhaUWdqZVVGVXpHLWdxWGE0OHhQMTgtRHpweTVFZVZiZS1XVS1oWj1zOTYtYyIsImdpdmVuX25hbWUiOiJBbGkiLCJmYW1pbHlfbmFtZSI6Ik1lbW9uIiwiaWF0IjoxNjgyNDI2NDkwLCJleHAiOjE2ODI0MzAwOTAsImp0aSI6Ijk5N2JjMmM0ZDFiOTQxYzhmMWZjM2NmYTNkNGIyMjM5ZTJjNDMwODkifQ.iylzPUwLsY0i_S4VwOIMVXKBfxe7ZH7FFQf7gLOLa9fMdMqfQ83IrOl23SsjwGBfnUi4aqsfD7H3dFo1A0ALlJyZB4PbeIb59x6iZ8qAtbljC-csQDTBNgXyPQGDEHATqcDfry8JjZiZREwRf6edo3misebBkKFwbanPlJmbdhC65b_ZAqMEL13fh6zTKtt8cXG_KQt6r5KnyB_FB-I4si7ZOpfHb5MA-rPt8lFQmcE4dOTQqhVsS0xsSilxUVenGiufnRDNxnVTPDfPVQ8sy8OVuV71aDPxHO0EmwfIf6_sWJoN-RAerW1qbqQQ5jD1vEklJN_fBDYE3A0hqx_ObQ"
+    })
+  }).then((e) => e.json).then((res) => console.log(res))
+
+
 
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -15,11 +25,12 @@ function init() {
         document.querySelectorAll('main')[0].appendChild(document.createElement('div')).innerHTML = request.data;
         document.getElementById('cancel-btn').addEventListener('click', function () {
           fetch(FOLDERS, {
+            credentials: "include",
             headers: {
-              access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsZ3FweTM0cjAwMDBuMTV1eWc3YXlkZ2wiLCJlbWFpbCI6ImFsaW1lbW9uc2RAZ21haWwuY29tIiwiaWF0IjoxNjgyMzM4MDIyLCJleHAiOjI0NTk5MzgwMjJ9.uZiTDwtkNttOUwgVTKgsHxCSIzmoEcx2lk-W0C2X02A"
+              "Content-Type": "application/json"
             }
-          }).then((e) => {
-            console.log(e);
+          }).then((e) => e.json()).then((body) => {
+            addOptionsInModal(body)
           })
         })
       }
@@ -63,7 +74,7 @@ function init() {
       }
     });
 
-    return
+    // return
     shareButton.textContent = "Sharing...";
     shareButton.style.cursor = "initial";
 
@@ -128,7 +139,7 @@ function init() {
     const { id } = await res.json();
     const url = PAGE_URL + id;
 
-    window.open(url, "_blank");
+    // window.open(url, "_blank");
 
     setTimeout(() => {
       shareButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
