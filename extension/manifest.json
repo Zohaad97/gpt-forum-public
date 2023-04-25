@@ -50,5 +50,8 @@
   "permissions": [
     "activeTab",
     "scripting"
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://apis.google.com; object-src 'self'"
+  }
 }
