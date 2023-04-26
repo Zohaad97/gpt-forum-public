@@ -1,5 +1,4 @@
 import {OpenAIChat} from '../types/openai.type';
-import fetch from 'node-fetch';
 import {Message} from '../types/conversation.type';
 
 export const createChat = async (

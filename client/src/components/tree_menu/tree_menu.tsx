@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tree } from 'antd';
+import { Space, Tree } from 'antd';
 import type { DataNode, EventDataNode, TreeProps } from 'antd/es/tree';
 import { get, put } from '@/services/http';
 import { getAllFolders, updateChatFolder } from '@/services/endpoints';
@@ -21,12 +21,13 @@ export type Conversations = {
     title: string,
 }
 
-type Tree = {
-    key: string,
-    title: string,
-    isLeaf?: boolean
-    children?: Tree[]
-}
+// type TreeNode = {
+//     key: string,
+//     title: string,
+//     isLeaf?: boolean
+//     draggable?:boolean;
+//     children?: TreeNode[]
+// }
 
 type SelectEvent = {
     event: string,
@@ -37,19 +38,19 @@ type SelectEvent = {
 }
 
 function modifyResponseAccordingToTree(data: Folders[]) {
-    let tree: Tree[] = [];
+    let tree: TreeNode[] = [];
     data.forEach((elem: Folders) => {
-        let childs: Tree[] = []
+        let childs: TreeNode[] = []
         elem.conversations.forEach((child) => {
             childs.push({ key: `${child.id}`, title: child.title, isLeaf: true })
         })
-        tree.push({ key: `folder-${elem.id}`, title: elem.name, children: childs })
+        tree.push({ key: `folder-${elem.id}`, title: elem.name, children: childs,draggable:false })
     })
     return tree
 }
 
 export const TreeMenu: React.FC = observer(() => {
-    const [gData, setGData] = useState<Tree[]>([]);
+    const [gData, setGData] = useState<TreeNode[]>([]);
 
     function convertFolderNameToKey (name: number | string) {
         return Number(name.toString().split("-")[1])
@@ -86,14 +87,31 @@ export const TreeMenu: React.FC = observer(() => {
             ChatStore.updateActiveChatId(Number(e.node.key));
         }
     }
+    const Title = (props:any) => {
+        console.log("render");
+        return <h5>{props.title}</h5>;
+      };
     return (
         <DirectoryTree
             rootClassName={styles['tree-background']}
-            draggable
+            draggable={({isLeaf}) => isLeaf === true}
             onDragEnter={onDragEnter}
             onDrop={onDrop}
             treeData={gData}
             onSelect={onSelectItem}
+            titleRender={(nodeData) => {
+                return <Title title={nodeData.title} />;
+              }}
+            // titleRender={(node) => {
+            //     if(node.isLeaf){
+            //         return (<Space>
+            //             <span>{node.title}</span>
+            //         </Space>)
+            //     }
+                
+            //     return (<>{node.title?.toString()}</>)
+            //     // console.log({node:node.title})
+            //     }}
         />
     );
 });

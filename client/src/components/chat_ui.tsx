@@ -7,7 +7,7 @@ import { ChatStore } from '@/stores/chat_store';
 import { observer } from 'mobx-react';
 import Image from 'next/image';
 import GPTAvatar from './gpt_avatar';
-
+import { useSession } from 'next-auth/react'
 type Item = {
   from: string;
   value: string;
@@ -21,7 +21,8 @@ type ChatResponse = {
 
 export const ChatUI = observer(() => {
   const [chat, setChat] = useState<ChatResponse>({ items: [], title: '', avatarUrl: '' });
-  
+  const {data} = useSession();
+  console.log(data)
   useEffect(() => {
     if(ChatStore.activeChatId !== 0) {
       (async () => {

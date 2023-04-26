@@ -1,11 +1,25 @@
-import React from 'react';
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from 'next/app';
 import '../globals.scss';
 import '../styles/highlight.scss';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ProtectedLayout } from "@/layouts/protected-layout";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <GoogleOAuthProvider clientId="867710713307-9262qp9c32rirk6st5aad08spc00kemv.apps.googleusercontent.com">
-    <Component {...pageProps} />
-  </GoogleOAuthProvider>
+
+type AppPropsWithAuth = AppProps & {
+  Component: {
+    requireAuth?: boolean;
+  };
+};
+
+
+export default function App({ Component, pageProps }: AppPropsWithAuth) {
+  return <SessionProvider session={pageProps.session}>
+    {Component.requireAuth ? (
+      <ProtectedLayout>
+        <Component {...pageProps} />
+      </ProtectedLayout>
+    ) : (
+      <Component {...pageProps} />
+    )}
+  </SessionProvider>;
 }
