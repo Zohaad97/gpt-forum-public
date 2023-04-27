@@ -15,3 +15,9 @@ export type Message = {
   from: 'human' | 'gpt';
   value: string;
 };
+
+export type AllFolerConversations = {
+  id: number,
+  name: string,
+  conversations: Conversation[]
+}
