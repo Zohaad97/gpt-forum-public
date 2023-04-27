@@ -1,11 +1,11 @@
-fetch('http://localhost:3000/api/auth/csrf', {mode: 'no-cors'}).then(async res => {
+fetch('http://localhost:3000/api/auth/csrf').then(async res => {
   const json = await res.json();
   const csrf = json.csrfToken;
   document.querySelector('#csrfToken-google').value = csrf;
   document.querySelector('#csrfToken-twitter').value = csrf;
 });
 
-fetch('http://localhost:3000/api/auth/session', {mode: 'no-cors'}).then(async res => {
+fetch('http://localhost:3000/api/auth/session').then(async res => {
   console.log(res);
   const json = await res.json();
   document.querySelector('#loading-div').style.display = 'none';
@@ -13,7 +13,7 @@ fetch('http://localhost:3000/api/auth/session', {mode: 'no-cors'}).then(async re
     //user is logged in
     document.querySelector('#session-div').style.display = 'flex';
 
-    const {user} = json;
+    const { user } = json;
     document.querySelector('#session-image').src = user.image;
     document.querySelector('#session-name').innerHTML = user.name;
     document.querySelector('#session-username').innerHTML = user.username;

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { get } from '@/services/http';
 import styles from '@/styles/utils.module.scss';
-import { geChat } from '@/services/endpoints';
-import { type AxiosResponse } from 'axios';
-import { ChatStore } from '@/stores/chat_store';
-import { observer } from 'mobx-react';
 import Image from 'next/image';
 import GPTAvatar from './gpt_avatar';
-import { useSession } from 'next-auth/react'
+import { Conversation } from '@/types/conversation.type';
+
 type Item = {
   from: string;
   value: string;
@@ -19,22 +16,23 @@ type ChatResponse = {
   avatarUrl: '';
 };
 
-export const ChatUI = observer(() => {
-  const [chat, setChat] = useState<ChatResponse>({ items: [], title: '', avatarUrl: '' });
-  useEffect(() => {
-    if (ChatStore.activeChatId !== 0) {
-      (async () => {
-        const chat: AxiosResponse<ChatResponse> = await get(
-          geChat(ChatStore.activeChatId)
-        );
-        setChat(chat.data);
-      })();
-    }
-  }, [ChatStore.activeChatId]);
+export const ChatUI: React.FC<{ chat: Conversation }> = ({ chat }) => {
+  console.log(chat);
 
-  useEffect(() => {
-    console.log(chat);
-  }, [chat]);
+  // useEffect(() => {
+  //   if (ChatStore.activeChatId !== 0) {
+  //     (async () => {
+  //       const chat: AxiosResponse<ChatResponse> = await get(
+  //         geChat(ChatStore.activeChatId)
+  //       );
+  //       setChat(chat.data);
+  //     })();
+  //   }
+  // }, [ChatStore.activeChatId]);
+
+  // useEffect(() => {
+  //   console.log(chat);
+  // }, [chat]);
   return (
     <div className="flex flex-col items-center pb-24 dark:bg-[#343541] min-h-screen">
       {chat.items &&
@@ -76,4 +74,4 @@ export const ChatUI = observer(() => {
         })}
     </div>
   );
-});
+};

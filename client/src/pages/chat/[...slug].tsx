@@ -1,36 +1,33 @@
 import { UserView } from '@/layouts/user_view';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { fetchAllConverationFolder } from '@/models/conversation';
-import { getSession } from 'next-auth/react';
+import { fetchConveration } from '@/models/conversation';
+import { Conversation } from '@/types/conversation.type';
 
-export default function Chat() {
+export default function Chat({ chat }: { chat: Conversation }) {
   return (
     <>
       <Head>
         <title>Ultimate GPT Forum</title>
       </Head>
-      <UserView />
+      <UserView chat={chat} />
     </>
   );
 }
 
 Chat.requireAuth = true;
 
-type Folder = {
-  id: number,
-  name: string,
-  conversations: []
-}
+export const getServerSideProps: GetServerSideProps<{ chat: Conversation | null }> = async (context) => {
 
-export const getServerSideProps: GetServerSideProps<{ folders: Folder[] }> = async ({ req }) => {
-  const session = await getSession({ req });
-  // @ts-ignore
-  const data: Folder[] = await fetchAllConverationFolder(session?.user?.id);
-
+  const { slug } = context.query;
+  var chatId = "0";
+  if (slug?.length) {
+    chatId = slug[slug.length - 1]
+  }
+  const chat = await fetchConveration(chatId);
   return {
     props: {
-      folders: data
-    },
-  };
+      chat: chat
+    }
+  }
 };
