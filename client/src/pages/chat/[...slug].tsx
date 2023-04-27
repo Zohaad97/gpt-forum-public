@@ -1,9 +1,8 @@
-import {UserView} from '@/layouts/user_view';
-import {geChat, getAllFolders} from '@/services/endpoints';
-import {get, post} from '@/services/http';
-import axios, {AxiosResponse} from 'axios';
-import {GetServerSideProps} from 'next';
+import { UserView } from '@/layouts/user_view';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { fetchAllConverationFolder } from '@/models/conversation';
+import { getSession } from 'next-auth/react';
 
 export default function Chat() {
   return (
@@ -18,34 +17,20 @@ export default function Chat() {
 
 Chat.requireAuth = true;
 
-type ChatpProps = {
-  name: string;
-};
+type Folder = {
+  id: number,
+  name: string,
+  conversations: []
+}
 
-type Item = {
-  from: string;
-  value: string;
-};
-
-type ChatResponse = {
-  title: string;
-  items: Item[];
-  avatarUrl: '';
-};
-
-export const getServerSideProps: GetServerSideProps<ChatpProps> = async context => {
-  console.log(context.req.cookies);
-  const {slug} = context.query;
-
-  //   var chatResponse = await fetch(getAllFolders);
-  //   chatResponse = await chatResponse.json();
-  var chatResponse = await axios.get(getAllFolders, {withCredentials: true});
-
-  console.log(chatResponse);
+export const getServerSideProps: GetServerSideProps<{ folders: Folder[] }> = async ({ req }) => {
+  const session = await getSession({ req });
+  // @ts-ignore
+  const data: Folder[] = await fetchAllConverationFolder(session?.user?.id);
 
   return {
     props: {
-      name: '',
+      folders: data
     },
   };
 };

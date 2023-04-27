@@ -10,17 +10,15 @@ function defaultHeaders() {
 }
 
 export const get = async (url: string) => {
-  const response = await axios.get(url, {...defaultHeaders()});
-  console.log('Zoop', response);
-
+  const response = await axios.get(url, { ...defaultHeaders() });
   return response;
 };
 
 export const post = async (url: string, body: any) => {
-  const response = await axios.post(url, body, {...defaultHeaders()});
+  const response = await axios.post(url, body, { ...defaultHeaders() });
   return response;
 };
 export const put = async (url: string, body: any) => {
-  const response = await axios.put(url, body, {...defaultHeaders()});
+  const response = await axios.put(url, body, { ...defaultHeaders() });
   return response;
 };
