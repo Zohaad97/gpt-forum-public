@@ -1,6 +1,6 @@
 let isRequesting = false;
 
-const API_URL = 'https://api.howilearnt.com/api/conversations';
+const API_URL = 'https://gpt-forum-git-dev-zohaad97.vercel.app/api/conversations';
 const PAGE_URL = 'https://sharegpt.com/c/';
 
 // const API_URL = "http://localhost:3000/api/conversations";

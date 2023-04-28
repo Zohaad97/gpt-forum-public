@@ -1,19 +1,18 @@
-fetch('http://localhost:3000/api/auth/csrf').then(async res => {
+fetch('https://gpt-forum-git-dev-zohaad97.vercel.app/api/auth/csrf').then(async res => {
   const json = await res.json();
   const csrf = json.csrfToken;
   document.querySelector('#csrfToken-google').value = csrf;
   document.querySelector('#csrfToken-twitter').value = csrf;
 });
 
-fetch('http://localhost:3000/api/auth/session').then(async res => {
+fetch('https://gpt-forum-git-dev-zohaad97.vercel.app/api/auth/session').then(async res => {
   console.log(res);
   const json = await res.json();
   document.querySelector('#loading-div').style.display = 'none';
   if (json.user) {
     //user is logged in
     document.querySelector('#session-div').style.display = 'flex';
-
-    const { user } = json;
+    const {user} = json;
     document.querySelector('#session-image').src = user.image;
     document.querySelector('#session-name').innerHTML = user.name;
     document.querySelector('#session-username').innerHTML = user.username;
