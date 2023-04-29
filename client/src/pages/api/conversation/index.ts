@@ -5,6 +5,10 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import {getServerSession} from 'next-auth';
 import {authOptions, Session} from '../auth/[...nextauth]';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') {
+    res.status(200).send('OK');
+    return;
+  }
   const session = (await getServerSession(req, res, authOptions)) as Session;
   const userId = session?.user?.id;
   if (!userId) {
