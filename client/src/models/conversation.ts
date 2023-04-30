@@ -31,6 +31,29 @@ export const createConversation = async (userId: string, body: Conversation) => 
 
   return createdConversation;
 };
+
+export const createPublicConversation = async (body: Conversation) => {
+  const createdConversation = await prisma.conversation.create({
+    data: {
+      title: body.title,
+      avatar: body.avatarUrl,
+      messages: {
+        createMany: {
+          data: parseConversationMessages(body.items).map(item => {
+            return {
+              content: item.value,
+              from: item.from,
+            };
+          }),
+        },
+      },
+    },
+    include: {messages: true},
+  });
+
+  return createdConversation;
+};
+
 export const fetchConveration = async (id: string) => {
   const conversationId = id;
 
