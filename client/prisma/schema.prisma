@@ -121,7 +121,7 @@ model Conversation {
   updatedAt            DateTime            @updatedAt
   views                Int                 @default(0)
   messages             Message[]
-  conversationFolderId Int
+  conversationFolderId Int?
   conversationFolder   ConversationFolder? @relation(fields: [conversationFolderId], references: [id], onDelete: Cascade)
 
   @@index([views(sort: Desc)])
