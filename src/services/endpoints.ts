@@ -1,6 +1,4 @@
 const BASEURL = process.env.NEXT_PUBLIC_BASE_API_URL;
-console.log(BASEURL);
-
 export const geChat = (id: number) => `${BASEURL}conversation/${id}`;
 export const googleLogin = `${BASEURL}auth/session`;
 export const getAllFolders = `${BASEURL}conversation-folder/all`;
