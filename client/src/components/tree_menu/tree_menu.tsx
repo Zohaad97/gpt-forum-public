@@ -23,12 +23,12 @@ export type Conversations = {
 };
 
 type TreeNode = {
-  key: string;
-  title: string;
-  isLeaf?: boolean;
-  draggable?: boolean;
-  children?: TreeNode[];
-};
+    key: string,
+    title: string,
+    isLeaf?: boolean
+    draggable?:boolean;
+    children?: TreeNode[]
+}
 
 type SelectEvent = {
   event: string;

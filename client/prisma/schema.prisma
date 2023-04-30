@@ -113,16 +113,16 @@ model ConversationFolder {
 // }
 
 model Conversation {
-  id                   Int                @id @default(autoincrement())
+  id                   Int                 @id @default(autoincrement())
   title                String
-  avatar               String?            @db.LongText
-  private              Boolean            @default(false)
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
-  views                Int                @default(0)
+  avatar               String?             @db.LongText
+  private              Boolean             @default(false)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  views                Int                 @default(0)
   messages             Message[]
-  conversationFolderId Int
-  conversationFolder   ConversationFolder @relation(fields: [conversationFolderId], references: [id], onDelete: Cascade)
+  conversationFolderId Int?
+  conversationFolder   ConversationFolder? @relation(fields: [conversationFolderId], references: [id], onDelete: Cascade)
 
   @@index([views(sort: Desc)])
   @@index([createdAt])
