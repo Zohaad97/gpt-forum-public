@@ -96,7 +96,7 @@ export const TreeMenu: React.FC = observer(() => {
   }
 
   const Title = (props: any) => {
-    return <h5>{props.title}</h5>;
+    return <>{props.title}</>;
   };
   return (
     <DirectoryTree

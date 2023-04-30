@@ -1,45 +1,11 @@
-@tailwind base;
-@tailwind components;
+// Removed base and components tailwind
+// Because it conflicts with tha base of AntDesign
+// Right now we don't need it. Will think about it, if it is need further
+
+// @tailwind base;
+// @tailwind components;
 @tailwind utilities;
 
-.bg {
-    background: rgb(240, 242, 245);
-}
-
-.space-align-container {
-    display: flex;
-    height: calc(100vh - 150px);
-    justify-content: center;
-    align-items: center;
-}
-
-.space-align-block {
-    flex: none;
-    margin: 8px 4px;
-    padding: 4px;
-    align-self: center;
-}
-
-.space-align-block .mock-block {
-    display: inline-block;
-    padding: 32px 8px 16px;
-    background: rgba(150, 150, 150, 0.2);
-}
-
-.ant-tree-node-content-wrapper-normal .ant-tree-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-:where(.css-dev-only-do-not-override-1fviqcj).ant-tree.ant-tree-directory .ant-tree-treenode .ant-tree-node-content-wrapper {
-    display: flex;
-}
-
-// For tree icon in center
-:where(.css-dev-only-do-not-override-1fviqcj).ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle,
-:where(.css-dev-only-do-not-override-1fviqcj).ant-tree .ant-tree-checkbox+span .ant-tree-iconEle {
-    display: flex;
-    align-items: center;
+body {
+    margin: 0;
 }
