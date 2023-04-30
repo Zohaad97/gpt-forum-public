@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 function defaultHeaders() {
   return {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 }

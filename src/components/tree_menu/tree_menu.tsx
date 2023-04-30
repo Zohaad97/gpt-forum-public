@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Space, Tree} from 'antd';
-import type {DataNode, EventDataNode, TreeProps} from 'antd/es/tree';
-import {get, put} from '@/services/http';
-import {getAllFolders, updateChatFolder} from '@/services/endpoints';
-import styles from './tree_menu.module.scss';
-import {Key} from 'antd/es/table/interface';
-import {observer} from 'mobx-react';
-import {ChatStore} from '@/stores/chat_store';
-import {useRouter} from 'next/router';
+import React, { useEffect, useState } from "react";
+import { Space, Tree } from "antd";
+import type { DataNode, EventDataNode, TreeProps } from "antd/es/tree";
+import { get, put } from "@/services/http";
+import { getAllFolders, updateChatFolder } from "@/services/endpoints";
+import styles from "./tree_menu.module.scss";
+import { Key } from "antd/es/table/interface";
+import { observer } from "mobx-react";
+import { ChatStore } from "@/stores/chat_store";
+import { useRouter } from "next/router";
 
-const {DirectoryTree} = Tree;
+const { DirectoryTree } = Tree;
 
 export type Folders = {
   id: number;
@@ -23,12 +23,12 @@ export type Conversations = {
 };
 
 type TreeNode = {
-    key: string,
-    title: string,
-    isLeaf?: boolean
-    draggable?:boolean;
-    children?: TreeNode[]
-}
+  key: string;
+  title: string;
+  isLeaf?: boolean;
+  draggable?: boolean;
+  children?: TreeNode[];
+};
 
 type SelectEvent = {
   event: string;
@@ -42,10 +42,15 @@ function modifyResponseAccordingToTree(data: Folders[]) {
   let tree: TreeNode[] = [];
   data.forEach((elem: Folders) => {
     let childs: TreeNode[] = [];
-    elem.conversations.forEach(child => {
-      childs.push({key: `${child.id}`, title: child.title, isLeaf: true});
+    elem.conversations.forEach((child) => {
+      childs.push({ key: `${child.id}`, title: child.title, isLeaf: true });
     });
-    tree.push({key: `folder-${elem.id}`, title: elem.name, children: childs, draggable: false});
+    tree.push({
+      key: `folder-${elem.id}`,
+      title: elem.name,
+      children: childs,
+      draggable: false,
+    });
   });
   return tree;
 }
@@ -55,7 +60,7 @@ export const TreeMenu: React.FC = observer(() => {
   const [gData, setGData] = useState<TreeNode[]>([]);
 
   function convertFolderNameToKey(name: number | string) {
-    return Number(name.toString().split('-')[1]);
+    return Number(name.toString().split("-")[1]);
   }
   useEffect(() => {
     (async () => {
@@ -71,9 +76,9 @@ export const TreeMenu: React.FC = observer(() => {
     }
   }, [ChatStore.chatFolders]);
 
-  const onDragEnter: TreeProps['onDragEnter'] = info => {};
+  const onDragEnter: TreeProps["onDragEnter"] = (info) => {};
 
-  const onDrop: TreeProps['onDrop'] = async info => {
+  const onDrop: TreeProps["onDrop"] = async (info) => {
     const chatId = Number(info.dragNode.key);
     const folderId = convertFolderNameToKey(info.node.key);
     await put(updateChatFolder(chatId, folderId), {});
@@ -82,8 +87,10 @@ export const TreeMenu: React.FC = observer(() => {
   };
 
   function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
-    if (e.node.title && typeof e.node.title === 'string') {
-      const url = `${e.node.title?.toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '-')}/${e.node.key}`;
+    if (e.node.title && typeof e.node.title === "string") {
+      const url = `${e.node.title
+        ?.toLowerCase()
+        .replace(/[^a-zA-Z0-9_-]/g, "-")}/${e.node.key}`;
       router.push(`/chat/${url}`);
     }
   }
@@ -93,13 +100,13 @@ export const TreeMenu: React.FC = observer(() => {
   };
   return (
     <DirectoryTree
-      rootClassName={styles['tree-background']}
-      draggable={({isLeaf}) => isLeaf === true}
+      rootClassName={styles["tree-background"]}
+      draggable={({ isLeaf }) => isLeaf === true}
       onDragEnter={onDragEnter}
       onDrop={onDrop}
       treeData={gData}
       onSelect={onSelectItem}
-      titleRender={nodeData => {
+      titleRender={(nodeData) => {
         return <Title title={nodeData.title} />;
       }}
     />
