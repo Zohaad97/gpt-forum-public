@@ -8,7 +8,7 @@ export default function Home() {
         <title>Ultimate GPT Forum</title>
       </Head>
       {/* Temporary rendered homepage */}
-      <UserView chat={{}} />
+      <UserView chat={null} />
     </>
   );
 }
