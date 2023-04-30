@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Space, Tree} from 'antd';
+import {Tree} from 'antd';
 import type {DataNode, EventDataNode, TreeProps} from 'antd/es/tree';
 import {get, put} from '@/services/http';
 import {getAllFolders, updateChatFolder} from '@/services/endpoints';
 import styles from './tree_menu.module.scss';
-import {Key} from 'antd/es/table/interface';
+import {type Key} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {ChatStore} from '@/stores/chat_store';
 import {useRouter} from 'next/router';
@@ -39,9 +39,9 @@ type SelectEvent = {
 };
 
 function modifyResponseAccordingToTree(data: Folders[]) {
-  let tree: TreeNode[] = [];
+  const tree: TreeNode[] = [];
   data.forEach((elem: Folders) => {
-    let childs: TreeNode[] = [];
+    const childs: TreeNode[] = [];
     elem.conversations.forEach(child => {
       childs.push({key: `${child.id}`, title: child.title, isLeaf: true});
     });
@@ -74,9 +74,11 @@ export const TreeMenu: React.FC = observer(() => {
       const data = modifyResponseAccordingToTree(ChatStore.chatFolders);
       setGData(data);
     }
-  }, [ChatStore.chatFolders]);
+  }, []);
 
-  const onDragEnter: TreeProps['onDragEnter'] = info => {};
+  const onDragEnter: TreeProps['onDragEnter'] = info => {
+    //
+  };
 
   const onDrop: TreeProps['onDrop'] = async info => {
     const chatId = Number(info.dragNode.key);
