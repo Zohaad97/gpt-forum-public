@@ -1,7 +1,6 @@
-
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import {useSession} from 'next-auth/react';
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 
 type Props = {
   children: React.ReactElement;
@@ -15,9 +14,9 @@ type Props = {
   export default Home;
  */
 
-export const ProtectedLayout = ({ children }: Props): JSX.Element => {
+export const ProtectedLayout = ({children}: Props): JSX.Element => {
   const router = useRouter();
-  const { status: sessionStatus } = useSession();
+  const {status: sessionStatus} = useSession();
   const authorized = sessionStatus === 'authenticated';
   const unAuthorized = sessionStatus === 'unauthenticated';
   const loading = sessionStatus === 'loading';
@@ -31,7 +30,7 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
     if (unAuthorized) {
       router.push({
         pathname: '/api/auth/signin',
-        query: { returnUrl: router.asPath },
+        query: {returnUrl: router.asPath},
       });
     }
   }, [loading, unAuthorized, sessionStatus, router]);

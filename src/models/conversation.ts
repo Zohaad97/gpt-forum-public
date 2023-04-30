@@ -1,7 +1,7 @@
-import { ApiError } from '@/types/api';
-import { Conversation, ConversationFolder } from '@/types/conversation.type';
-import { parseConversationMessages } from '@/utils/conversation';
-import { PrismaClient } from '@prisma/client';
+import {ApiError} from '@/types/api';
+import {Conversation, ConversationFolder} from '@/types/conversation.type';
+import {parseConversationMessages} from '@/utils/conversation';
+import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 export const createConversation = async (userId: string, body: Conversation) => {
@@ -26,7 +26,7 @@ export const createConversation = async (userId: string, body: Conversation) => 
         },
       },
     },
-    include: { messages: true },
+    include: {messages: true},
   });
 
   return createdConversation;
@@ -64,7 +64,7 @@ export const fetchConveration = async (id: string) => {
       messages: true,
       conversationFolder: true,
     },
-    where: { id: Number(conversationId) },
+    where: {id: Number(conversationId)},
   });
   if (data?.conversationFolder) {
     const conversation: Conversation = {
@@ -95,7 +95,7 @@ export const fetchAllConverationFolder = async (userId: string) => {
       name: true,
       conversations: true,
     },
-    where: { userId: userId },
+    where: {userId: userId},
   });
   return data || null;
 };
@@ -125,8 +125,8 @@ export const changeConversationFolderPath = async (
   });
   if (conversation) {
     conversation = await prisma.conversation.update({
-      where: { id: converationId },
-      data: { conversationFolderId: folderId },
+      where: {id: converationId},
+      data: {conversationFolderId: folderId},
     });
   } else {
     return null;
@@ -144,12 +144,12 @@ export const updateConversationFolder = async (
     throw new ApiError(403, 'Folder name required');
   }
   let conversationFolder = await prisma.conversationFolder.findFirst({
-    where: { id: folderId, userId },
+    where: {id: folderId, userId},
   });
   if (conversationFolder) {
     conversationFolder = await prisma.conversationFolder.update({
-      where: { id: folderId },
-      data: { name: body.name },
+      where: {id: folderId},
+      data: {name: body.name},
     });
   } else {
     return null;
@@ -160,11 +160,11 @@ export const updateConversationFolder = async (
 
 export const deleteConversationFolder = async (userId: string, folderId: number) => {
   let conversationFolder = await prisma.conversationFolder.findFirst({
-    where: { id: folderId, userId },
+    where: {id: folderId, userId},
   });
   if (conversationFolder) {
     await prisma.conversationFolder.delete({
-      where: { id: folderId },
+      where: {id: folderId},
     });
   } else {
     return false;

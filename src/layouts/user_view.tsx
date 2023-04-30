@@ -1,15 +1,15 @@
-import React from "react";
-import { Layout } from "antd";
-import { SideBar } from "@/components/sidebar/sidebar";
-import { MainContent } from "@/components/main_content";
-import { ResponsiveGrid } from "@/components/responsive_grid";
-import { ChatUI } from "@/components/chat_ui";
-import { Conversation } from "@/types/conversation.type";
+import React from 'react';
+import {Layout} from 'antd';
+import {SideBar} from '@/components/sidebar/sidebar';
+import {MainContent} from '@/components/main_content';
+import {ResponsiveGrid} from '@/components/responsive_grid';
+import {ChatUI} from '@/components/chat_ui';
+import {Conversation} from '@/types/conversation.type';
 
-export const UserView: React.FC<{ chat: Conversation | null }> = ({ chat }) => {
+export const UserView: React.FC<{chat: Conversation | null}> = ({chat}) => {
   return (
     <div>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{minHeight: '100vh'}}>
         <SideBar />
         {chat ? (
           <Layout className="site-layout">
@@ -17,7 +17,7 @@ export const UserView: React.FC<{ chat: Conversation | null }> = ({ chat }) => {
               <ResponsiveGrid
                 cols={[
                   {
-                    size: { sm: 24, md: 24, lg: 24, xl: 24, xxl: 24 },
+                    size: {sm: 24, md: 24, lg: 24, xl: 24, xxl: 24},
                     component: <ChatUI chat={chat} />,
                   },
                 ]}

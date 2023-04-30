@@ -17,7 +17,7 @@ export type Message = {
 };
 
 export type AllFolerConversations = {
-  id: number,
-  name: string,
-  conversations: Conversation[]
-}
+  id: number;
+  name: string;
+  conversations: Conversation[];
+};
