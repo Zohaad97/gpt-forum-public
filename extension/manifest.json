@@ -19,39 +19,12 @@
     "default_title": "Login to ShareGPT",
     "default_popup": "popup.html"
   },
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "modal.html"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
-      "matches": [
-        "https://chat.openai.com/*"
-      ],
-      "js": [
-        "forum.js",
-        "index.js"
-      ],
+      "matches": ["https://chat.openai.com/*"],
+      "js": ["index.js"],
       "run_at": "document_end"
     }
   ],
-  "host_permissions": [
-    "https://sharegpt.com/*"
-  ],
-  "permissions": [
-    "activeTab",
-    "scripting"
-  ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' https://apis.google.com; object-src 'self'"
-  }
+  "host_permissions": ["https://sharegpt.com/*"]
 }
