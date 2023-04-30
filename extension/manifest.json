@@ -26,5 +26,5 @@
       "run_at": "document_end"
     }
   ],
-  "host_permissions": ["https://sharegpt.com/*"]
+  "host_permissions": ["https://gpt-forum-git-dev-zohaad97.vercel.app/*"]
 }

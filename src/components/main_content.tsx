@@ -11,8 +11,8 @@ export const MainContent: React.FC<MainContentProps> = ({children}) => {
     token: {colorBgContainer},
   } = theme.useToken();
   return (
-    <Content style={{margin: '0 16px'}}>
-      <div style={{padding: 24, minHeight: 360, background: colorBgContainer}}>{children}</div>
+    <Content>
+      <div style={{minHeight: 360, background: colorBgContainer}}>{children}</div>
     </Content>
   );
 };
