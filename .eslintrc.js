@@ -30,7 +30,14 @@ module.exports = {
     sourceType: 'module',
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'import', '@next/next'],
+  plugins: [
+    'react',
+    'react-hooks',
+    'eslint-plugin-no-inline-styles',
+    '@typescript-eslint',
+    'import',
+    '@next/next',
+  ],
   root: true,
   rules: {
     'no-unused-vars': 0, // replaced by @typescript-eslint/no-unused-vars
@@ -39,6 +46,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/no-unused-vars': ['error', {args: 'none'}],
+    'no-inline-styles/no-inline-styles': 2,
   },
   overrides: [
     {

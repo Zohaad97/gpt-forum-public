@@ -5,11 +5,12 @@ import {MainContent} from '@/components/main_content';
 import {ResponsiveGrid} from '@/components/responsive_grid';
 import {ChatUI} from '@/components/chat_ui';
 import {type Conversation} from '@/types/conversation.type';
+import styles from './user_view.module.scss';
 
 export const UserView: React.FC<{chat: Conversation | null}> = ({chat}) => {
   return (
     <div>
-      <Layout style={{minHeight: '100vh'}}>
+      <Layout className={styles['layout']}>
         <SideBar />
         {chat ? (
           <Layout className="site-layout">

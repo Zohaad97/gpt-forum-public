@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserView} from '@/layouts/user_view';
+import {UserView} from '@/layouts/user_view/user_view';
 import type {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {fetchConveration} from '@/models/conversation';

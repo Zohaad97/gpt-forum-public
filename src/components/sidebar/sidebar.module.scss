@@ -3,11 +3,19 @@
   flex: 1;
   justify-content: center;
   margin-top: 20px;
+
   > span {
     color: white;
     border-style: dashed;
   }
+
   > input {
     width: 80px;
   }
+}
+
+.demo_logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.2);
 }

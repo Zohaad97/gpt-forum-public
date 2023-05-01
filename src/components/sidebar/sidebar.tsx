@@ -33,13 +33,7 @@ export const SideBar: React.FC = () => {
   };
   return (
     <Sider width={300} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-      <div
-        style={{
-          height: 32,
-          margin: 16,
-          background: 'rgba(255, 255, 255, 0.2)',
-        }}
-      />
+      <div className={styles['demo_logo']} />
       <TreeMenu />
       <div className={styles['add_folder_tag']}>
         {inputVisible ? (

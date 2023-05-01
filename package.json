@@ -40,6 +40,7 @@
     "eslint": "^8.38.0",
     "eslint-config-next": "^13.3.3",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-no-inline-styles": "^1.0.5",
     "eslint-plugin-prettier": "^4.2.1",
     "postcss": "^8.4.22",
     "prettier": "^2.8.7",
