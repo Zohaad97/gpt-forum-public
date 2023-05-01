@@ -20,6 +20,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
+    'plugin:@next/next/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -29,10 +30,11 @@ module.exports = {
     sourceType: 'module',
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'import'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'import', '@next/next'],
   root: true,
   rules: {
     'no-unused-vars': 0, // replaced by @typescript-eslint/no-unused-vars
+    'import/no-default-export': 'error',
     '@typescript-eslint/consistent-type-imports': ['error', {fixStyle: 'inline-type-imports'}],
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
@@ -40,7 +42,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: '*.stories.tsx',
+      files: ['src/pages/*.tsx', 'src/pages/**/*.ts', 'src/pages/**/*.tsx'],
       rules: {
         'import/no-default-export': 0,
       },
