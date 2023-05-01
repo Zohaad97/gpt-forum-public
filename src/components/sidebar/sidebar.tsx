@@ -41,30 +41,19 @@ export const SideBar: React.FC = () => {
         }}
       />
       <TreeMenu />
-      <div
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-          display: 'flex',
-          marginTop: 20,
-        }}
-      >
+      <div className={styles['add_folder_tag']}>
         {inputVisible ? (
           <Input
             ref={inputRef}
             type="text"
             size="small"
-            style={{
-              width: 78,
-            }}
             value={folderName}
             onChange={handleInputChange}
             onBlur={handleInputConfirm}
             onPressEnter={handleInputConfirm}
           />
         ) : (
-          <Tag onClick={showInput} className={styles['add_new_folder_tag']}>
+          <Tag onClick={showInput}>
             <PlusOutlined /> New
           </Tag>
         )}

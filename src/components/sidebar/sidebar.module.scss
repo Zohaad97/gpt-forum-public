@@ -1,4 +1,13 @@
-.add_new_folder_tag {
-  border-style: dashed;
-  color: white;
+.add_folder_tag {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin-top: 20px;
+  > span {
+    color: white;
+    border-style: dashed;
+  }
+  > input {
+    width: 80px;
+  }
 }
