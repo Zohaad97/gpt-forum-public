@@ -5,7 +5,10 @@ import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 export const createConversation = async (userId: string, body: Conversation) => {
-  const folder = await fetchConversationFolder(body.folder.id, userId);
+  let folder;
+  if (body.folder && !body.folder?.id) {
+    folder = await fetchConversationFolder(body.folder.id, userId);
+  }
 
   if (!folder) {
     throw new ApiError(403, 'Invalid folder');
@@ -14,7 +17,7 @@ export const createConversation = async (userId: string, body: Conversation) => 
     data: {
       title: body.title,
       avatar: body.avatarUrl,
-      conversationFolderId: body.folder.id,
+      conversationFolderId: body.folder?.id,
       messages: {
         createMany: {
           data: parseConversationMessages(body.items).map(item => {
@@ -66,26 +69,24 @@ export const fetchConveration = async (id: string) => {
     },
     where: {id: Number(conversationId)},
   });
-  if (data?.conversationFolder) {
-    const conversation: Conversation = {
-      title: data?.title || '',
-      avatarUrl: '',
-      folder: {
-        id: data.conversationFolder.id,
-        name: data.conversationFolder.name,
-      },
-      items:
-        data?.messages.map(item => {
-          return {
-            from: item.from,
-            value: item.content,
-          };
-        }) || [],
-    };
-    return conversation;
-  } else {
-    return null;
-  }
+  const conversation: Conversation = {
+    title: data?.title || '',
+    avatarUrl: '',
+    folder: data?.conversationFolder
+      ? {
+          id: data.conversationFolder.id,
+          name: data.conversationFolder.name,
+        }
+      : null,
+    items:
+      data?.messages.map(item => {
+        return {
+          from: item.from,
+          value: item.content,
+        };
+      }) || [],
+  };
+  return conversation;
 };
 
 export const fetchAllConverationFolder = async (userId: string) => {

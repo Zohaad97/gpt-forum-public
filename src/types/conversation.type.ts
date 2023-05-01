@@ -2,7 +2,7 @@ export type Conversation = {
   avatarUrl: string;
   title: string;
   items: Message[];
-  folder: ConversationFolder;
+  folder: ConversationFolder | null;
 };
 
 export type ConversationFolder = {
