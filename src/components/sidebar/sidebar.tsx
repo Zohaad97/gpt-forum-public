@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Input, InputRef, Layout, Tag} from 'antd';
+import {Input, type InputRef, Layout, Tag} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import {TreeMenu} from '../tree_menu/tree_menu';
 import {post} from '@/services/http';
@@ -26,7 +26,7 @@ export const SideBar: React.FC = () => {
   const handleInputConfirm = async () => {
     if (folderName) {
       // Api call and Add into state
-      const {data} = await post(createFolder, {name: folderName});
+      await post(createFolder, {name: folderName});
     }
     setInputVisible(false);
     setFolderName('');

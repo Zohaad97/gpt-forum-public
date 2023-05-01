@@ -1,4 +1,4 @@
-import {Message} from '@/types/conversation.type';
+import type {Message} from '@/types/conversation.type';
 import sanitizeHtml from 'sanitize-html';
 export const parseConversationMessages = (messages: Message[]): Message[] => {
   if (!messages || messages.length === 0) {

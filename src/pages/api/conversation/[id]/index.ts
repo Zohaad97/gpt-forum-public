@@ -2,7 +2,7 @@ import {fetchConveration} from '@/models/conversation';
 import {ApiError} from '@/types/api';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {getServerSession} from 'next-auth';
-import {authOptions, Session} from '../../auth/[...nextauth]';
+import {authOptions, type Session} from '../../auth/[...nextauth]';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = (await getServerSession(req, res, authOptions)) as Session;
   const userId = session?.user?.id;

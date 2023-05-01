@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function GPTAvatar({model}: {model?: string}) {
+export function GPTAvatar({model}: {model?: string}) {
   return (
     <div
       className={`bg-[#10A37F] border-0 flex items-center justify-center h-[30px] w-[30px] rounded-sm p-[0.25rem] ${

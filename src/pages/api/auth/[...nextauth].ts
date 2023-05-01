@@ -1,4 +1,4 @@
-import NextAuth, {DefaultSession, ISODateString, NextAuthOptions} from 'next-auth';
+import NextAuth, {type DefaultSession, type ISODateString, type NextAuthOptions} from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import {PrismaClient} from '@prisma/client';
 import {PrismaAdapter} from '@next-auth/prisma-adapter';
@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({session, user}) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       session.user.id = user.id;
       return session;

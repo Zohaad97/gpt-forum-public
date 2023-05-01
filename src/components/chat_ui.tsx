@@ -1,36 +1,14 @@
 import React from 'react';
-import {get} from '@/services/http';
 import styles from '@/styles/utils.module.scss';
 import Image from 'next/image';
-import GPTAvatar from './gpt_avatar';
-import {Conversation} from '@/types/conversation.type';
+import {GPTAvatar} from './gpt_avatar';
+import {type Conversation} from '@/types/conversation.type';
 
 type Item = {
   from: string;
   value: string;
 };
-
-type ChatResponse = {
-  title: string;
-  items: Item[];
-  avatarUrl: '';
-};
-
 export const ChatUI: React.FC<{chat: Conversation}> = ({chat}) => {
-  // useEffect(() => {
-  //   if (ChatStore.activeChatId !== 0) {
-  //     (async () => {
-  //       const chat: AxiosResponse<ChatResponse> = await get(
-  //         geChat(ChatStore.activeChatId)
-  //       );
-  //       setChat(chat.data);
-  //     })();
-  //   }
-  // }, [ChatStore.activeChatId]);
-
-  // useEffect(() => {
-  //   console.log(chat);
-  // }, [chat]);
   return (
     <div className="flex flex-col items-center dark:bg-[#343541] min-h-screen">
       {chat.items &&

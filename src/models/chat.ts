@@ -1,7 +1,7 @@
 import {createChat} from '@/models/openai';
 import {ApiError} from '@/types/api';
 import {PrismaClient} from '@prisma/client';
-import {Message} from '../types/conversation.type';
+import {type Message} from '../types/conversation.type';
 
 const prisma = new PrismaClient();
 export const createChatMessage = async (userId: string, conversationId: number, body: Message) => {

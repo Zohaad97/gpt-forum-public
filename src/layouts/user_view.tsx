@@ -4,7 +4,7 @@ import {SideBar} from '@/components/sidebar/sidebar';
 import {MainContent} from '@/components/main_content';
 import {ResponsiveGrid} from '@/components/responsive_grid';
 import {ChatUI} from '@/components/chat_ui';
-import {Conversation} from '@/types/conversation.type';
+import {type Conversation} from '@/types/conversation.type';
 
 export const UserView: React.FC<{chat: Conversation | null}> = ({chat}) => {
   return (

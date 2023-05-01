@@ -33,7 +33,6 @@ module.exports = {
   root: true,
   rules: {
     'no-unused-vars': 0, // replaced by @typescript-eslint/no-unused-vars
-    'import/no-default-export': 'error',
     '@typescript-eslint/consistent-type-imports': ['error', {fixStyle: 'inline-type-imports'}],
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-non-null-assertion': 0,

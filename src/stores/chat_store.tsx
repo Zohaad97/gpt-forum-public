@@ -1,4 +1,4 @@
-import {Folders} from '@/components/tree_menu/tree_menu';
+import type {Folders} from '@/components/tree_menu/tree_menu';
 import {action, makeObservable, observable} from 'mobx';
 
 export class ChatStoreImp {

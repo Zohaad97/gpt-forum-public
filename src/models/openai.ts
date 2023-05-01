@@ -1,5 +1,5 @@
-import {OpenAIChat} from '../types/openai.type';
-import {Message} from '../types/conversation.type';
+import {type OpenAIChat} from '../types/openai.type';
+import {type Message} from '../types/conversation.type';
 
 export const createChat = async (
   newMessage: Message,
@@ -11,7 +11,7 @@ export const createChat = async (
     human: 'user',
     gpt: 'assistant',
   };
-  let messages = [
+  const messages = [
     {
       role: 'user',
       content:

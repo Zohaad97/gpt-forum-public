@@ -1,8 +1,9 @@
+import React from 'react';
 import {UserView} from '@/layouts/user_view';
-import {GetServerSideProps} from 'next';
+import type {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {fetchConveration} from '@/models/conversation';
-import {Conversation} from '@/types/conversation.type';
+import type {Conversation} from '@/types/conversation.type';
 
 export default function Chat({chat}: {chat: Conversation}) {
   return (
@@ -21,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<{
   chat: Conversation | null;
 }> = async context => {
   const {slug} = context.query;
-  var chatId = '0';
+  let chatId = '0';
   if (slug?.length) {
     chatId = slug[slug.length - 1];
   }

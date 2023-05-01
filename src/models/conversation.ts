@@ -1,5 +1,5 @@
 import {ApiError} from '@/types/api';
-import {Conversation, ConversationFolder} from '@/types/conversation.type';
+import type {Conversation, ConversationFolder} from '@/types/conversation.type';
 import {parseConversationMessages} from '@/utils/conversation';
 import {PrismaClient} from '@prisma/client';
 
@@ -159,7 +159,7 @@ export const updateConversationFolder = async (
 };
 
 export const deleteConversationFolder = async (userId: string, folderId: number) => {
-  let conversationFolder = await prisma.conversationFolder.findFirst({
+  const conversationFolder = await prisma.conversationFolder.findFirst({
     where: {id: folderId, userId},
   });
   if (conversationFolder) {
