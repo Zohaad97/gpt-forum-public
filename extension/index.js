@@ -1,7 +1,7 @@
 let isRequesting = false;
 
 const API_URL = 'https://gpt-forum-git-dev-zohaad97.vercel.app/api/conversation/public';
-const PAGE_URL = 'https://sharegpt.com/c/';
+const PAGE_URL = (id) => `https://gpt-forum-git-dev-zohaad97.vercel.app/chat/public/${id}?option=select-all`;
 
 // const API_URL = "http://localhost:3000/api/conversations";
 // const PAGE_URL = "http://localhost:3000/c/";
@@ -86,15 +86,15 @@ function init() {
     }
 
     const res = await fetch(API_URL, {
-      body: JSON.stringify({...conversationData, folder: {id: 3}}),
-      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ ...conversationData, folder: { id: 3 } }),
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     }).catch(err => {
       isRequesting = false;
       alert(`Error saving conversation: ${err.message}`);
     });
-    const {id} = await res.json();
-    const url = PAGE_URL + id;
+    const { id } = await res.json();
+    const url = PAGE_URL(id);
 
     window.open(url, '_blank');
 
