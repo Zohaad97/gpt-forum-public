@@ -1,4 +1,5 @@
 export type Conversation = {
+  id: number;
   avatarUrl: string;
   title: string;
   items: Message[];

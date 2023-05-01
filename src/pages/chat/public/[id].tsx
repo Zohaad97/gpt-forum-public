@@ -9,9 +9,11 @@ import {ResponsiveGrid} from '@/components/responsive_grid';
 import {ChatUI} from '@/components/chat_ui';
 import {type ParsedUrlQuery} from 'querystring';
 import {SelectFolder} from '@/layouts/select_folder';
+import {getServerSession} from 'next-auth';
+import {authOptions, type Session} from '@/pages/api/auth/[...nextauth]';
 //import {useSession} from 'next-auth/react';
 
-export default function Page({chat}: {chat: Conversation}) {
+export default function Page({chat, userId, option}: PageProps) {
   //   const {data} = useSession();
   return (
     <>
@@ -30,29 +32,44 @@ export default function Page({chat}: {chat: Conversation}) {
           />
         </MainContent>
       </Layout>
-      <SelectFolder chat={chat} userId={null} />
+      {option === 'select-all' ? <SelectFolder chatId={chat.id} userId={userId} /> : null}
     </>
   );
 }
 
 interface ChatParams extends ParsedUrlQuery {
   id: string;
-  option: string;
+  option: 'select-all';
 }
 
 type PageProps = {
   chat: Conversation;
-  option: string;
+  option: 'select-all';
+  userId: string;
 };
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async context => {
   const query = context.query as ChatParams;
-  const chat = await fetchConveration(query.id);
-  // TODO: Need to put validation. If chat is not public it should return 404
+  const session = (await getServerSession(context.req, context.res, authOptions)) as Session;
+  const userId = session?.user?.id;
+  if (!userId || !query.id || !query.option) {
+    return {
+      notFound: true,
+    };
+  }
+  let chat;
+  try {
+    chat = await fetchConveration(query.id, true);
+  } catch (_) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       chat: chat,
       option: query.option,
+      userId,
     },
   };
 };

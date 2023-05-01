@@ -34,12 +34,53 @@ export const createConversation = async (userId: string, body: Conversation) => 
 
   return createdConversation;
 };
+export const publishTemporaryConversation = async (
+  conversationId: number,
+  folderId: number,
+  userId: string
+) => {
+  let folder;
+  if (folderId) {
+    folder = await fetchConversationFolder(folderId, userId);
+  }
 
+  if (!folder) {
+    throw new ApiError(403, 'Invalid folder');
+  }
+
+  const conversation = await prisma.conversation.findFirst({
+    where: {
+      id: conversationId,
+      // temporary: true,
+    },
+  });
+  if (!conversation) {
+    throw new ApiError(404, 'Conversation not found');
+  }
+
+  const result = await prisma.conversation.update({
+    where: {
+      id: conversationId,
+    },
+    data: {
+      temporary: false,
+      conversationFolderId: folderId,
+    },
+    select: {
+      id: true,
+      title: true,
+      conversationFolder: true,
+    },
+  });
+
+  return result;
+};
 export const createPublicConversation = async (body: Conversation) => {
   const createdConversation = await prisma.conversation.create({
     data: {
       title: body.title,
       avatar: body.avatarUrl,
+      temporary: true,
       messages: {
         createMany: {
           data: parseConversationMessages(body.items).map(item => {
@@ -57,7 +98,7 @@ export const createPublicConversation = async (body: Conversation) => {
   return createdConversation;
 };
 
-export const fetchConveration = async (id: string) => {
+export const fetchConveration = async (id: string, temporary = false) => {
   const conversationId = id;
 
   const data = await prisma.conversation.findFirst({
@@ -67,12 +108,16 @@ export const fetchConveration = async (id: string) => {
       messages: true,
       conversationFolder: true,
     },
-    where: {id: Number(conversationId)},
+    where: {id: Number(conversationId), temporary},
   });
+  if (!data) {
+    throw new ApiError(404, 'Conversation not found');
+  }
   const conversation: Conversation = {
-    title: data?.title || '',
+    id: data.id,
+    title: data.title,
     avatarUrl: '',
-    folder: data?.conversationFolder
+    folder: data.conversationFolder
       ? {
           id: data.conversationFolder.id,
           name: data.conversationFolder.name,
