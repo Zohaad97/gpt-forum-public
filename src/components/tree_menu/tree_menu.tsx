@@ -84,9 +84,7 @@ export const TreeMenu: React.FC = observer(() => {
   };
 
   function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
-    console.log(e);
-
-    if (e.node.title && typeof e.node.title === 'string') {
+    if (e.node.isLeaf && typeof e.node.title === 'string') {
       const url = `${e.node.title?.toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '-')}/${e.node.key}`;
       router.push(`/chat/${url}`);
     }
