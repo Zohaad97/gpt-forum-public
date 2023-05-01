@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Tree} from 'antd';
+import {Spin, Tree} from 'antd';
 import type {DataNode, EventDataNode, TreeProps} from 'antd/es/tree';
 import {get, put} from '@/services/http';
 import {getAllFolders, updateChatFolder} from '@/services/endpoints';
@@ -58,6 +58,7 @@ function modifyResponseAccordingToTree(data: Folders[]) {
 export const TreeMenu: React.FC = observer(() => {
   const router = useRouter();
   const [gData, setGData] = useState<TreeNode[]>([]);
+  const [loading, setLoading] = useState(false);
 
   function convertFolderNameToKey(name: number | string) {
     return Number(name.toString().split('-')[1]);
@@ -78,9 +79,16 @@ export const TreeMenu: React.FC = observer(() => {
   const onDrop: TreeProps['onDrop'] = async info => {
     const chatId = Number(info.dragNode.key);
     const folderId = convertFolderNameToKey(info.node.key);
+    if (!chatId || !folderId) {
+      return;
+    }
+    setLoading(true);
     await put(updateChatFolder(chatId, folderId), {});
     const response = await get(getAllFolders);
     ChatStore.setChatFolders(response.data);
+    const data = modifyResponseAccordingToTree(response.data);
+    setGData(data);
+    setLoading(false);
   };
 
   function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
@@ -93,17 +101,21 @@ export const TreeMenu: React.FC = observer(() => {
   const Title = (props: any) => {
     return <>{props.title}</>;
   };
+
   return (
-    <DirectoryTree
-      rootClassName={styles['tree-background']}
-      draggable={({isLeaf}) => isLeaf === true}
-      onDragEnter={onDragEnter}
-      onDrop={onDrop}
-      treeData={gData}
-      onSelect={onSelectItem}
-      titleRender={nodeData => {
-        return <Title title={nodeData.title} />;
-      }}
-    />
+    <Spin spinning={loading}>
+      <DirectoryTree
+        rootClassName={styles['tree-background']}
+        // draggable={({isLeaf}) => isLeaf === true}
+        draggable
+        onDragEnter={onDragEnter}
+        onDrop={onDrop}
+        treeData={gData}
+        onSelect={onSelectItem}
+        titleRender={nodeData => {
+          return <Title title={nodeData.title} />;
+        }}
+      />
+    </Spin>
   );
 });
