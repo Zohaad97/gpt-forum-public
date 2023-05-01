@@ -66,14 +66,9 @@ export const TreeMenu: React.FC = observer(() => {
     (async () => {
       const response = await get(getAllFolders);
       ChatStore.setChatFolders(response.data);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (ChatStore.chatFolders) {
-      const data = modifyResponseAccordingToTree(ChatStore.chatFolders);
+      const data = modifyResponseAccordingToTree(response.data);
       setGData(data);
-    }
+    })();
   }, []);
 
   const onDragEnter: TreeProps['onDragEnter'] = info => {
@@ -89,6 +84,8 @@ export const TreeMenu: React.FC = observer(() => {
   };
 
   function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
+    console.log(e);
+
     if (e.node.title && typeof e.node.title === 'string') {
       const url = `${e.node.title?.toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '-')}/${e.node.key}`;
       router.push(`/chat/${url}`);
