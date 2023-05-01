@@ -12,6 +12,7 @@ export const MainContent: React.FC<MainContentProps> = ({children}) => {
   } = theme.useToken();
   return (
     <Content>
+      {/* eslint-disable-next-line no-inline-styles/no-inline-styles */}
       <div style={{minHeight: 360, background: colorBgContainer}}>{children}</div>
     </Content>
   );
