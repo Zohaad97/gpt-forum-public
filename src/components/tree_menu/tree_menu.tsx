@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Spin, Tree} from 'antd';
+import {Button, Spin, Tree} from 'antd';
 import type {DataNode, EventDataNode, TreeProps} from 'antd/es/tree';
-import {get, put} from '@/services/http';
-import {getAllFolders, updateChatFolder} from '@/services/endpoints';
+import {get, httpDelete, put} from '@/services/http';
+import {deleteFolderById, getAllFolders, updateChatFolder} from '@/services/endpoints';
 import styles from './tree_menu.module.scss';
 import {type Key} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {ChatStore} from '@/stores/chat_store';
 import {useRouter} from 'next/router';
+import {DeleteFilled} from '@ant-design/icons';
 
 const {DirectoryTree} = Tree;
 
@@ -98,22 +99,52 @@ export const TreeMenu: React.FC = observer(() => {
     }
   }
 
+  async function deleteFolder(folderId: string) {
+    setLoading(true);
+    await httpDelete(deleteFolderById(folderId));
+    setLoading(false);
+  }
+
+  function deleteAction(data: any) {
+    console.log(data);
+
+    if (data.node.isLeaf) {
+      // some logic to delete chat
+      console.log(data.node);
+    } else {
+      const folderId = data.node.key.split('-')[1];
+      deleteFolder(folderId);
+    }
+  }
+
   const Title = (props: any) => {
-    return <>{props.title}</>;
+    return (
+      <div className={styles['title_with_buttons']}>
+        <div>
+          {props.node.title}
+          <Button
+            shape="circle"
+            size="small"
+            icon={<DeleteFilled />}
+            onClick={() => deleteAction(props)}
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
     <Spin spinning={loading}>
       <DirectoryTree
         rootClassName={styles['tree-background']}
-        // draggable={({isLeaf}) => isLeaf === true}
+        expandAction={false}
         draggable
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
         onSelect={onSelectItem}
         titleRender={nodeData => {
-          return <Title title={nodeData.title} />;
+          return <Title node={nodeData} />;
         }}
       />
     </Spin>

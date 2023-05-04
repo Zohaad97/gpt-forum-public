@@ -22,3 +22,7 @@ export const put = async (url: string, body: any) => {
   const response = await axios.put(url, body, {...defaultHeaders()});
   return response;
 };
+export const httpDelete = async (url: string) => {
+  const response = await axios.delete(url, {...defaultHeaders()});
+  return response;
+};
