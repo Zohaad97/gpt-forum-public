@@ -2,3 +2,20 @@
   background: transparent;
   color: white;
 }
+
+.title_with_buttons {
+  display: inline-block;
+  width: calc(100% - 40px);
+
+  >div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    >button {
+      background-color: transparent;
+      border: 0px;
+      color: white;
+    }
+  }
+}

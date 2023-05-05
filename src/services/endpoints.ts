@@ -6,3 +6,4 @@ export const publishChat = (chatId: number): string => `${BASEURL}conversation/$
 export const createFolder = `${BASEURL}conversation-folder`;
 export const updateChatFolder = (chatId: number, folderId: number): string =>
   `${BASEURL}conversation/${chatId}/folder/${folderId}`;
+export const deleteFolderById = (folderId: string) => `${BASEURL}conversation-folder/${folderId}`;

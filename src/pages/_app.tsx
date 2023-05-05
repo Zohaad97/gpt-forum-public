@@ -23,7 +23,6 @@ export default function App({Component, pageProps}: AppPropsWithAuth) {
       ) : (
         <Component {...pageProps} />
       )}
-      <Component {...pageProps} />
     </SessionProvider>
   );
 }
