@@ -8,7 +8,7 @@ import {type Key} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {ChatStore} from '@/stores/chat_store';
 import {useRouter} from 'next/router';
-import {DeleteFilled} from '@ant-design/icons';
+import {DeleteFilled, EditFilled} from '@ant-design/icons';
 
 const {DirectoryTree} = Tree;
 
@@ -106,8 +106,6 @@ export const TreeMenu: React.FC = observer(() => {
   }
 
   function deleteAction(data: any) {
-    console.log(data);
-
     if (data.node.isLeaf) {
       // some logic to delete chat
       console.log(data.node);
@@ -118,16 +116,29 @@ export const TreeMenu: React.FC = observer(() => {
   }
 
   const Title = (props: any) => {
+    const [field, setField] = useState(false);
+    function editAction(data: any) {
+      // Edit actions here
+      setField(true);
+    }
     return (
       <div className={styles['title_with_buttons']}>
         <div>
-          {props.node.title}
-          <Button
-            shape="circle"
-            size="small"
-            icon={<DeleteFilled />}
-            onClick={() => deleteAction(props)}
-          />
+          <div>{field ? <input type="text" value={props.node.title} /> : props.node.title}</div>
+          <div className={styles['action-buttons']}>
+            <Button
+              shape="circle"
+              size="small"
+              icon={<EditFilled />}
+              onClick={() => editAction(props)}
+            />
+            <Button
+              shape="circle"
+              size="small"
+              icon={<DeleteFilled />}
+              onClick={() => deleteAction(props)}
+            />
+          </div>
         </div>
       </div>
     );

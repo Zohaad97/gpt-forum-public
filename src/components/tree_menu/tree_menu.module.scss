@@ -12,10 +12,12 @@
     justify-content: space-between;
     align-items: center;
 
-    >button {
-      background-color: transparent;
-      border: 0px;
-      color: white;
+    .action-buttons {
+      button {
+        background-color: transparent;
+        border: 0px;
+        color: white;
+      }
     }
   }
 }
