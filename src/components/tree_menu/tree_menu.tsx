@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Spin, Tree} from 'antd';
+import {Spin, Tree} from 'antd';
 import type {DataNode, EventDataNode, TreeProps} from 'antd/es/tree';
-import {get, httpDelete, put} from '@/services/http';
-import {deleteFolderById, getAllFolders, updateChatFolder} from '@/services/endpoints';
+import {get, put} from '@/services/http';
+import {getAllFolders, updateChatFolder} from '@/services/endpoints';
 import styles from './tree_menu.module.scss';
 import {type Key} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {ChatStore} from '@/stores/chat_store';
 import {useRouter} from 'next/router';
-import {DeleteFilled, EditFilled} from '@ant-design/icons';
+import {TreeActionButtons} from '../tree_action_buttons';
 
 const {DirectoryTree} = Tree;
 
@@ -23,14 +23,6 @@ export type Conversations = {
   title: string;
 };
 
-type TreeNode = {
-  key: string;
-  title: string;
-  isLeaf?: boolean;
-  draggable?: boolean;
-  children?: TreeNode[];
-};
-
 type SelectEvent = {
   event: string;
   selected: boolean;
@@ -40,9 +32,9 @@ type SelectEvent = {
 };
 
 function modifyResponseAccordingToTree(data: Folders[]) {
-  const tree: TreeNode[] = [];
+  const tree: DataNode[] = [];
   data.forEach((elem: Folders) => {
-    const childs: TreeNode[] = [];
+    const childs: DataNode[] = [];
     elem.conversations.forEach(child => {
       childs.push({key: `${child.id}`, title: child.title, isLeaf: true});
     });
@@ -50,7 +42,6 @@ function modifyResponseAccordingToTree(data: Folders[]) {
       key: `folder-${elem.id}`,
       title: elem.name,
       children: childs,
-      draggable: false,
     });
   });
   return tree;
@@ -58,7 +49,7 @@ function modifyResponseAccordingToTree(data: Folders[]) {
 
 export const TreeMenu: React.FC = observer(() => {
   const router = useRouter();
-  const [gData, setGData] = useState<TreeNode[]>([]);
+  const [gData, setGData] = useState<DataNode[]>([]);
   const [loading, setLoading] = useState(false);
 
   function convertFolderNameToKey(name: number | string) {
@@ -95,67 +86,24 @@ export const TreeMenu: React.FC = observer(() => {
   function onSelectItem(selectedKeys: Key[], e: SelectEvent) {
     if (e.node.isLeaf && typeof e.node.title === 'string') {
       const url = `${e.node.title?.toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '-')}/${e.node.key}`;
-      router.push(`/chat/${url}`);
+      if (`/chat/${url}` != router.asPath) {
+        router.push(`/chat/${url}`);
+      }
     }
   }
-
-  async function deleteFolder(folderId: string) {
-    setLoading(true);
-    await httpDelete(deleteFolderById(folderId));
-    setLoading(false);
-  }
-
-  function deleteAction(data: any) {
-    if (data.node.isLeaf) {
-      // some logic to delete chat
-      console.log(data.node);
-    } else {
-      const folderId = data.node.key.split('-')[1];
-      deleteFolder(folderId);
-    }
-  }
-
-  const Title = (props: any) => {
-    const [field, setField] = useState(false);
-    function editAction(data: any) {
-      // Edit actions here
-      setField(true);
-    }
-    return (
-      <div className={styles['title_with_buttons']}>
-        <div>
-          <div>{field ? <input type="text" value={props.node.title} /> : props.node.title}</div>
-          <div className={styles['action-buttons']}>
-            <Button
-              shape="circle"
-              size="small"
-              icon={<EditFilled />}
-              onClick={() => editAction(props)}
-            />
-            <Button
-              shape="circle"
-              size="small"
-              icon={<DeleteFilled />}
-              onClick={() => deleteAction(props)}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <Spin spinning={loading}>
       <DirectoryTree
         rootClassName={styles['tree-background']}
         expandAction={false}
-        draggable
+        draggable={e => (e.isLeaf ? true : false)}
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
         onSelect={onSelectItem}
         titleRender={nodeData => {
-          return <Title node={nodeData} />;
+          return <TreeActionButtons node={nodeData} />;
         }}
       />
     </Spin>

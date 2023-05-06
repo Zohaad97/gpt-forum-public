@@ -1,0 +1,26 @@
+.title_with_buttons {
+  display: inline-block;
+  width: calc(100% - 40px);
+  .edit_field {
+    background: transparent;
+    border: 0px;
+    color: white;
+    user-select: all;
+  }
+  ::selection {
+    background: rgb(229, 112, 61);
+  }
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .action-buttons {
+      button {
+        background-color: transparent;
+        border: 0px;
+        color: white;
+      }
+    }
+  }
+}
